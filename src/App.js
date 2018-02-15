@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import fetch from "isomorphic-fetch";
 import "./App.css";
 const DEFAULT_QUERY = "redux";
 const DEFAULT_HPP = "100";
@@ -168,3 +169,5 @@ const Table = ({ list, pattern, onDismiss }) => {
   );
 };
 export default App;
+
+export { Button, Search, Table };

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import fetch from "isomorphic-fetch";
 import "./App.css";
 const DEFAULT_QUERY = "redux";
@@ -131,11 +132,21 @@ class App extends Component {
   }
 }
 
-const Button = ({ onClick, className = "", children }) => (
+const Button = ({ onClick, className, children }) => (
   <button onClick={onClick} className={className} type="button">
     {children}
   </button>
 );
+
+Button.defaultProps = {
+  className: ""
+};
+
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired
+};
 
 const Search = ({ value, onChange, onSubmit, children }) => (
   <form onSubmit={onSubmit}>
@@ -143,6 +154,12 @@ const Search = ({ value, onChange, onSubmit, children }) => (
     <button type="submit">{children}</button>
   </form>
 );
+
+Search.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired
+};
 
 const Table = ({ list, pattern, onDismiss }) => {
   return (
@@ -167,6 +184,19 @@ const Table = ({ list, pattern, onDismiss }) => {
       ))}
     </div>
   );
+};
+
+Table.propTypes = {
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      objectID: PropTypes.string.isRequired,
+      author: PropTypes.string,
+      url: PropTypes.string,
+      num_comments: PropTypes.number,
+      points: PropTypes.number
+    })
+  ).isRequired,
+  onDismiss: PropTypes.func.isRequired
 };
 export default App;
 

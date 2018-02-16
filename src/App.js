@@ -123,23 +123,17 @@ class App extends Component {
           <Table list={list} onDismiss={this.onDismiss} />
         )}
         <div className="interactions">
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Button
-              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
-            >
-              {" "}
-              More{" "}
-            </Button>
-          )}
+          <ButtonWithLoading
+            isLoading={isLoading}
+            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+          >
+            More
+          </ButtonWithLoading>
         </div>
       </div>
     );
   }
 }
-
-const Loading = () => <div>Loading...</div>;
 
 const Button = ({ onClick, className, children }) => (
   <button onClick={onClick} className={className} type="button">
@@ -156,6 +150,13 @@ Button.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired
 };
+
+const withLoading = Component => ({ isLoading, ...rest }) =>
+  isLoading ? <Loading /> : <Component {...rest} />;
+
+const Loading = () => <div>Loading...</div>;
+
+const ButtonWithLoading = withLoading(Button);
 
 const Search = ({ value, onChange, onSubmit, children }) => (
   <form onSubmit={onSubmit}>
@@ -207,6 +208,7 @@ Table.propTypes = {
   ).isRequired,
   onDismiss: PropTypes.func.isRequired
 };
+
 export default App;
 
 export { Button, Search, Table };
